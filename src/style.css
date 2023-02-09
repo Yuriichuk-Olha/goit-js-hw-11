@@ -64,7 +64,7 @@ button:focus {
 .load-more {
     height: 50px;
     width: 150px;
-    margin-left: 10px;
+    margin: 0 auto;
 
     background: #9296c2;
     border: 1px solid rgba(255, 255, 255, 0.3);
