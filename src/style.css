@@ -30,7 +30,7 @@ button {
 
     background: #9296c2;
     border: 1px solid rgba(255, 255, 255, 0.3);
-    /* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.15)); */
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.15));
     border-radius: 4px;
     cursor: pointer;
     color:black;
@@ -62,6 +62,7 @@ button:focus {
 }
 
 .load-more {
+    display: none;
     height: 50px;
     width: 150px;
     margin: 0 auto;

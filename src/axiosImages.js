@@ -16,5 +16,4 @@ async function axiosImages(hits, queryPage=1){
 export default {axiosImages};
 
 
-  //  &SameSite=None;Secure
 
