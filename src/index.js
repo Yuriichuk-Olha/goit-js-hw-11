@@ -2,14 +2,11 @@ import './style.css';
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import Notiflix from "notiflix";
-//import axios from "axios";
 import API from "./axiosImages.js";
-
+//import axios from "axios";
 
 
 const form = document.querySelector('.search-form')
-//const inputRef = document.querySelector('.search-form-input')
-//const buttonForm = document.querySelector('button[type="submit"]')
 const galleryRef = document.querySelector('.gallery')
 const lordMoreButton = document.querySelector('.load-more')
 
@@ -31,21 +28,22 @@ function onFormSubmit(event){
     };
     clear();
 
-API.axiosImages(inputForm, queryPage).then(hits => {
-    console.log(hits.totalHits);
+API.axiosImages(inputForm, queryPage).then((hits) => {
+    console.log(hits.hits.length);
     
-    if(hits.totalHits === 0){
+    if(hits.hits.length === 0){
     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
-    //hideLordMoreBtn()
+    hideLordMoreBtn()
     }  
 
-    if(hits.totalHits >= Math.ceil(hits.totalHits/40)) {
-        createMarkup(hits)
+    else if(hits.hits.length > 40) {
         hideLordMoreBtn()
+        createMarkup(hits)
+      
         Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.")   
     }
 
-    if (hits.totalHits){
+  else  if (hits){
         createMarkup(hits)
         Notiflix.Notify.info(`Hooray! We found ${hits.totalHits} images.`)
         showLordMoreBtn()
@@ -59,23 +57,23 @@ function onLordMore(event){
     event.preventDefault();
     queryPage += 1 
 
-    API.axiosImages(inputForm, queryPage).then(hits => {
-        console.log(hits.totalHits >= Math.ceil(hits.totalHits/40));
-        if(hits.totalHits === 0){
-        Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
-       // hideLordMoreBtn()
-        }
+    API.axiosImages(inputForm, queryPage).then((hits) => {
+        console.log(hits.hits.length);
 
-        if (hits.totalHits){
+        if(hits.hits.length === 0){
+        Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
+        hideLordMoreBtn()
+        }
+        if(hits.hits) {
             createMarkup(hits) 
             showLordMoreBtn()
             gallerySimple.refresh();
-        }
-        else if (hits.totalHits >= Math.ceil(hits.totalHits/40)) {
+        } 
+        else if (hits.hits.length < 40) {
             createMarkup(hits)
             hideLordMoreBtn()
             Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.")
-        }
+            }
     })
 };
 
@@ -88,9 +86,9 @@ function showLordMoreBtn(){
 };
 
 
-//  Math.ceil(hits.totalHits/40)
+//  
 // function hideTotalHits(hits){
-//     if (hits.totalHits.length >= 40) {
+//     if (hits.hits.length >= Math.ceil(hits.totalHits/40)) {
 //             createMarkup(hits)
 //             hideLordMoreBtn()
 //             Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.")
