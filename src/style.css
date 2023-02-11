@@ -63,6 +63,10 @@ button:focus {
 
 .load-more {
     display: none;
+}
+
+.load-more {
+    /* display: block; */
     height: 50px;
     width: 150px;
     margin: 0 auto;

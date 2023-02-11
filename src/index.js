@@ -18,6 +18,7 @@ const lordMoreButton = document.querySelector('.load-more')
 let gallerySimple = new SimpleLightbox('gallery a')
 let queryPage = 1;
 let inputForm = "";
+hideLordMoreBtn()
 
 form.addEventListener('submit', onFormSubmit)
 lordMoreButton.addEventListener('click', onLordMore)
@@ -31,70 +32,72 @@ function onFormSubmit(event){
     clear();
 
 API.axiosImages(inputForm, queryPage).then(hits => {
-    console.log(hits);
+    console.log(hits.totalHits);
+    
     if(hits.totalHits === 0){
     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
-    hideLordMoreBtn()
+    //hideLordMoreBtn()
     }  
 
-    if(hits.totalHits < 40) {
+    if(hits.totalHits >= Math.ceil(hits.totalHits/40)) {
         createMarkup(hits)
         hideLordMoreBtn()
-        Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.")
-        
+        Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.")   
     }
-    else {
+
+    if (hits.totalHits){
         createMarkup(hits)
         Notiflix.Notify.info(`Hooray! We found ${hits.totalHits} images.`)
-        
         showLordMoreBtn()
         gallerySimple.refresh();
     } 
+  
 })   
 };
-
-
 
 function onLordMore(event){
     event.preventDefault();
     queryPage += 1 
 
     API.axiosImages(inputForm, queryPage).then(hits => {
-    
+        console.log(hits.totalHits >= Math.ceil(hits.totalHits/40));
         if(hits.totalHits === 0){
         Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
-        hideLordMoreBtn()
-
+       // hideLordMoreBtn()
         }
 
-        if(hits.totalHits < 40) {
+        if (hits.totalHits){
+            createMarkup(hits) 
+            showLordMoreBtn()
+            gallerySimple.refresh();
+        }
+        else if (hits.totalHits >= Math.ceil(hits.totalHits/40)) {
             createMarkup(hits)
             hideLordMoreBtn()
             Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.")
-        }
-        else {
-            createMarkup(hits)
-            
-            showLordMoreBtn()
-            
-            if(hits.totalHits <= 40){
-                hideLordMoreBtn()
-            
-            }
-            gallerySimple.refresh();
         }
     })
 };
 
 
-
-
 function hideLordMoreBtn(){
-    lordMoreButton.style.display = "none";
+    lordMoreButton.style.display = 'none';
 };
 function showLordMoreBtn(){
     lordMoreButton.style.display = 'block';
 };
+
+
+//  Math.ceil(hits.totalHits/40)
+// function hideTotalHits(hits){
+//     if (hits.totalHits.length >= 40) {
+//             createMarkup(hits)
+//             hideLordMoreBtn()
+//             Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.")
+//         }
+// }
+
+
 
 function createMarkup({hits}){
     const markup = hits.map(hit => {
@@ -148,7 +151,7 @@ function clear(){
 
 // API.axiosImages(inputForm, queryPage).then(hits => {
 //   //  console.log();
-   
+
 //     if(hits.totalHits === 0){
 //         console.log(hits.totalHits);
         
@@ -190,7 +193,7 @@ function clear(){
 //         else if (hits.totalHits<=40) {
 //             Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.")
 //             hideLordMoreBtn()
-     
+
 //         }
 //         else  {
 //             Notiflix.Notify.info(`Hooray! We found ${hits.totalHits} images.`)
@@ -201,4 +204,3 @@ function clear(){
 //         }
 //     })
 // };
-//1. створити ф-ю щоб неподвоювалася і визивати її у lordMoreButton,
