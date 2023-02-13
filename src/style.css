@@ -1,5 +1,6 @@
 body {
     font-family:"roboto", sans-serif;
+    
 }
 .search-form-input {
     font-weight: 700;
@@ -11,7 +12,7 @@ body {
 
     background: #e5e5ed;
     border: 1px solid rgba(255, 255, 255, 0.3);
-    /* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.15)); */
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.15));
     border-radius: 4px;
     padding-left: 16px;
     cursor: pointer;
@@ -21,7 +22,6 @@ body {
 
 
 button {
-
     height: 50px;
     width: 100px;
     margin-left: 10px;
@@ -53,12 +53,14 @@ button:focus {
     padding-top: 15px;
     padding-bottom: 15px;
 }
+div{
+    margin: 0 auto;
+}
 .gallery {
     padding: 50px;
-    
     display: flex;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: 55px;
 }
 
 /* .load-more {
@@ -80,6 +82,10 @@ button:focus {
     line-height: 1.875;
     letter-spacing: 0.06em;
     cursor: pointer;
-    /* color: rgba(255, 255, 255, 0.6);  */
     color:black;
+}
+.info-item {
+    display: flex;
+    font-size: 16px;
+    padding-left: 20px;
 }

@@ -12,7 +12,7 @@ const lordMoreButton = document.querySelector('.load-more')
 
 
 
-let gallerySimple = new SimpleLightbox('gallery a')
+let gallerySimple = new SimpleLightbox('.gallery a')
 let queryPage = 1;
 let inputForm = "";
 hideLordMoreBtn()
@@ -29,52 +29,62 @@ function onFormSubmit(event){
     clear();
 
 API.axiosImages(inputForm, queryPage).then((hits) => {
-    console.log(hits.hits.length);
+    console.log(hits.totalHits);
     
     if(hits.hits.length === 0){
     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
-    hideLordMoreBtn()
-    }  
+    hideLordMoreBtn();
+    return;
+    } 
 
-    else if(hits.hits.length > 40) {
-        hideLordMoreBtn()
-        createMarkup(hits)
-      
+     if(hits.hits.length < 40) {
+        hideLordMoreBtn();
+        createMarkup(hits);
         Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.")   
+       return
+    
     }
 
-  else  if (hits){
-        createMarkup(hits)
-        Notiflix.Notify.info(`Hooray! We found ${hits.totalHits} images.`)
-        showLordMoreBtn()
+     if (hits.hits.length){
+        createMarkup(hits);
+        Notiflix.Notify.info(`Hooray! We found ${hits.totalHits} images.`);
+        showLordMoreBtn();
         gallerySimple.refresh();
-    } 
+        
+    }; 
   
-})   
+});   
 };
 
 function onLordMore(event){
     event.preventDefault();
-    queryPage += 1 
+    queryPage += 1;
 
     API.axiosImages(inputForm, queryPage).then((hits) => {
         console.log(hits.hits.length);
 
         if(hits.hits.length === 0){
         Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
-        hideLordMoreBtn()
+        hideLordMoreBtn();
+        return
         }
-        if(hits.hits) {
-            createMarkup(hits) 
-            showLordMoreBtn()
-            gallerySimple.refresh();
-        } 
-        else if (hits.hits.length < 40) {
-            createMarkup(hits)
-            hideLordMoreBtn()
+
+          else if (hits.hits.length < 40) {
+            createMarkup(hits);
+            hideLordMoreBtn();
             Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.")
-            }
-    })
+
+        }
+
+        else if(hits.hits.length) {
+            createMarkup(hits);
+            showLordMoreBtn();
+            gallerySimple.refresh();
+        
+        };
+      
+    
+    });
 };
 
 
@@ -88,7 +98,7 @@ function showLordMoreBtn(){
 
 //  
 // function hideTotalHits(hits){
-//     if (hits.hits.length >= Math.ceil(hits.totalHits/40)) {
+//     if (queryPage >= Math.ceil(hits.totalHits/40)) {
 //             createMarkup(hits)
 //             hideLordMoreBtn()
 //             Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.")
@@ -123,8 +133,8 @@ return `<div class="photo-card">
 function clear(){
     galleryRef.innerHTML = "";
     queryPage = 1;
-    hideLordMoreBtn()
-   
+    hideLordMoreBtn();
+
 };
 
 
