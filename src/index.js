@@ -95,16 +95,7 @@ function showLordMoreBtn(){
     lordMoreButton.style.display = 'block';
 };
 
-
-//  
-// function hideTotalHits(hits){
 //     if (queryPage >= Math.ceil(hits.totalHits/40)) {
-//             createMarkup(hits)
-//             hideLordMoreBtn()
-//             Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.")
-//         }
-// }
-
 
 
 function createMarkup({hits}){
@@ -138,77 +129,3 @@ function clear(){
 };
 
 
-
-
-
-
-
-
-
-
-
-// function onFormSubmit(event){
-//     event.preventDefault();
-//    // lordMoreButton.style.display = 'none';
-//     inputForm = event.target.searchQuery.value.trim();
-//     if(!inputForm){
-//         return
-//     };
-
-//     clear();
-
-// API.axiosImages(inputForm, queryPage).then(hits => {
-//   //  console.log();
-
-//     if(hits.totalHits === 0){
-//         console.log(hits.totalHits);
-        
-//     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
-//     hideLordMoreBtn()
-//     }
-//     else if (hits.totalHits <= 40) {
-//         // lordMoreButton = disabled
-//      //   lordMoreButton.style.display = 'none';
-//         Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.")
-//         hideLordMoreBtn()
-//     }
-
-//     else {
-//         Notiflix.Notify.info(`Hooray! We found ${hits.totalHits} images.`)
-//         }
-//         createMarkup(hits)
-//         showLordMoreBtn()
-//       //  lordMoreButton.style.display = 'block';
-//         gallerySimple.refresh();
-
-    
-// })   
-// };
-
-// lordMoreButton.addEventListener('click', onLordMore)
-
-// function onLordMore(event){
-
-//     event.preventDefault();
-//     queryPage += 1 
-
-//     API.axiosImages(inputForm, queryPage).then(hits => {
-//     console.log(hits);
-//         if(hits.totalHits === 0){
-//         Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
-//         hideLordMoreBtn()
-//         }
-//         else if (hits.totalHits<=40) {
-//             Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.")
-//             hideLordMoreBtn()
-
-//         }
-//         else  {
-//             Notiflix.Notify.info(`Hooray! We found ${hits.totalHits} images.`)
-//             createMarkup(hits)
-//             gallerySimple.refresh();
-//             showLordMoreBtn()
-//            // lordMoreButton.style.display = 'block';
-//         }
-//     })
-// };
